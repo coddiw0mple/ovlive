@@ -95,9 +95,10 @@ def build_directions(patterns: list[Pattern]) -> tuple[list[Direction], dict[tup
     by_route_dir: dict[tuple, int] = {}
     by_dir_id: dict = {}
     # Start each direction from its longest common pattern so short-turns merge into it cleanly.
-    ordered = sorted(patterns, key=lambda p: -p.total)
+    # Ties are broken by the station names so every build orders directions the same way.
+    ordered = sorted(patterns, key=lambda p: (-p.total, p.keys))
     top = ordered[0].total if ordered else 0
-    ordered.sort(key=lambda p: (p.total < top * 0.2, -len(p.keys), -p.total))
+    ordered.sort(key=lambda p: (p.total < top * 0.2, -len(p.keys), -p.total, p.keys))
     pattern_dir: dict[tuple[str, ...], int] = {}
     for p in ordered:
         rd = p.route_dir.most_common(1)[0][0] if p.route_dir else (None, None)

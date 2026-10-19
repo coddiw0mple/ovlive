@@ -57,7 +57,7 @@ async function ensureRegion(rid) {
   await Promise.all([app.live.poll(), app.live.pollAlerts(), loadLiveDays()]);
   app.region.loadShapes().then(() => {
     recompute();
-    app.view?.map?.(false);
+    app.view?.map?.(true); // the first render had no route shapes to zoom to yet
   });
 }
 
