@@ -1,0 +1,12 @@
+# build output (made by `python -m pipeline`)
+data/
+public/data/
+app/generated/
+# tooling
+.venv/
+__pycache__/
+*.pyc
+.vercel/
+.DS_Store
+.claude/
+.git/

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Live trams and buses in Dutch cities: where every vehicle is, departures, and which stops are skipped today.">
+  <title>OV Live</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
+  <script src="/js/app.js" type="module"></script>
+</head>
+<body>
+  <a href="#view" class="skip-link visually-hidden">Skip to content</a>
+  <main id="panel">
+    <button type="button" class="sheet-handle" id="sheet-handle" aria-expanded="false" aria-controls="panel">
+      <span class="visually-hidden">Show more of the panel</span>
+    </button>
+    <header class="topbar">
+      <h1 class="brand"><a href="#/">OV&nbsp;Live</a></h1>
+      <label class="visually-hidden" for="region">City</label>
+      <select id="region"></select>
+      <span id="status" class="status"></span>
+    </header>
+    <div id="view" tabindex="-1">
+      <p class="empty">Loading timetable…</p>
+    </div>
+    <footer class="credits">
+      Timetable &amp; live data: <a href="https://ovapi.nl" rel="noopener">OVapi</a> / NDOV (CC0, routes ODbL).
+      <a href="https://github.com/coddiw0mple/ovlive" rel="noopener">Source</a>
+    </footer>
+  </main>
+  <section id="map" aria-label="Map of vehicles and stops"></section>
+</body>
+</html>
