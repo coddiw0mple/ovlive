@@ -1,8 +1,6 @@
-# build output (made by `python -m pipeline`)
+# Keep CLI uploads small. Don't list public/data/ or app/generated/ here: they're
+# written during the Vercel build, and ignored paths are left out of the deployment.
 data/
-public/data/
-app/generated/
-# tooling
 .venv/
 __pycache__/
 *.pyc
