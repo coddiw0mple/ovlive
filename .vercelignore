@@ -1,5 +1,4 @@
-# Keep CLI uploads small. Don't list public/data/ or app/generated/ here: they're
-# written during the Vercel build, and ignored paths are left out of the deployment.
+# Keep `vercel deploy` uploads small; everything generated is rebuilt on Vercel anyway.
 data/
 .venv/
 __pycache__/
