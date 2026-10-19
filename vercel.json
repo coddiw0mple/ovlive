@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
   "functions": {
     "app/main.py": {
       "maxDuration": 30,
@@ -7,16 +8,29 @@
     }
   },
   "crons": [
-    { "path": "/api/cron/rebuild", "schedule": "30 4 * * *" }
+    {
+      "path": "/api/cron/rebuild",
+      "schedule": "30 4 * * *"
+    }
   ],
   "headers": [
     {
       "source": "/data/manifest.json",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=60, s-maxage=60" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=60, s-maxage=60"
+        }
+      ]
     },
     {
       "source": "/data/regions/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
+        }
+      ]
     }
   ]
 }
