@@ -4,8 +4,9 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"  # build-time scratch space (timetable zip + database), never deployed
-PUBLIC_DIR = ROOT / "public"  # served as static files; the pipeline writes public/data/
-GENERATED_DIR = ROOT / "app" / "generated"  # small lookups the live API needs, written by the pipeline
+PUBLIC_DIR = ROOT / "public"  # the web app (committed files only)
+GENERATED_DIR = ROOT / "app" / "generated"  # written by the pipeline during the build
+SITE_DATA_DIR = GENERATED_DIR / "data"  # timetable files, served at /data
 
 TZ = ZoneInfo("Europe/Amsterdam")
 

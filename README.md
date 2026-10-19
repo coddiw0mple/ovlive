@@ -19,7 +19,7 @@ Currently covers Delft, Den Haag, Rotterdam, Amsterdam and Utrecht.
 GitHub ──push──▶ Vercel build: python -m pipeline
                    1. download the national GTFS timetable from OVapi (~230 MB zip)
                    2. load it into DuckDB (≈15 s)
-                   3. write small JSON files per city and day to public/data/   ──▶ CDN
+                   3. write small JSON files per city and day (served at /data) ──▶ CDN
                  Vercel function: app/main.py (FastAPI)
                    /api/live, /api/alerts: fetch OVapi's GTFS-Realtime feeds,
                    keep only the chosen city's routes, cache ~10 s at the CDN
@@ -37,7 +37,7 @@ yesterday is reused, because each new timetable starts at the day it's published
 | Path | What |
 |---|---|
 | `pipeline/ingest.py` | Download the GTFS zip, load it into DuckDB |
-| `pipeline/export.py` | DuckDB → `public/data/` (lines, per-day trips, shapes) |
+| `pipeline/export.py` | DuckDB → `app/generated/data/` (lines, per-day trips, shapes), served at `/data` |
 | `pipeline/diagram.py` | Merge a line's stop patterns into one stop list per direction |
 | `app/main.py`, `app/realtime.py` | The live API |
 | `public/` | The web app (plain JS modules + MapLibre, no build step) |

@@ -1,6 +1,7 @@
-"""The live API. On Vercel this is the one serverless function; public/ is served by the CDN.
+"""The live API, plus the timetable files the pipeline generated.
 
-Locally (`uv run python -m app`) the same app also serves public/.
+On Vercel this is the one serverless function; public/ and the /data mount are
+served from the CDN. Locally (`uv run python -m app`) the same app serves everything.
 """
 
 from __future__ import annotations
@@ -13,8 +14,9 @@ from functools import lru_cache
 import httpx
 from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
-from .config import GENERATED_DIR, PUBLIC_DIR
+from .config import GENERATED_DIR, PUBLIC_DIR, SITE_DATA_DIR
 from .realtime import Feeds, alerts_for, trips_for, vehicles_for
 
 app = FastAPI(title="OV Live", docs_url=None, redoc_url=None, openapi_url=None)
@@ -95,8 +97,22 @@ def index():
     return RedirectResponse("/index.html")
 
 
+class TimetableFiles(StaticFiles):
+    """The pipeline's output. It changes once a day and the app adds ?b=<build> to its URLs."""
+
+    def file_response(self, full_path, *args, **kwargs):
+        response = super().file_response(full_path, *args, **kwargs)
+        if str(full_path).endswith("manifest.json"):
+            response.headers["Cache-Control"] = "public, max-age=60, s-maxage=60"
+        else:
+            response.headers["Cache-Control"] = "public, max-age=3600, s-maxage=86400"
+        return response
+
+
+# Generated during the build, so it can't live in public/ (Vercel collects that before
+# the build runs). Mounting it lets Vercel serve it from the CDN anyway.
+app.mount("/data", TimetableFiles(directory=SITE_DATA_DIR, check_dir=False), name="data")
+
 if not os.environ.get("VERCEL"):
     # Local development only; on Vercel the CDN serves public/ directly.
-    from fastapi.staticfiles import StaticFiles
-
     app.mount("/", StaticFiles(directory=PUBLIC_DIR, html=True), name="public")

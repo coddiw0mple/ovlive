@@ -1,11 +1,11 @@
 """Turn the timetable database into the small static files the web app loads.
 
-Output:
-  public/data/manifest.json                  build info, the days covered, regions
-  public/data/regions/<id>.json              lines (per-day summaries, stop diagrams) and stops
-  public/data/regions/<id>/<YYYY-MM-DD>.json every trip of the region's lines on that service day
-  public/data/regions/<id>/shapes.json       simplified route geometry
-  app/generated/regions.json                 route/stop ids per region, used to filter the live feeds
+Output (app/generated/data/ is served at /data):
+  data/manifest.json                  build info, the days covered, regions
+  data/regions/<id>.json              lines (per-day summaries, stop diagrams) and stops
+  data/regions/<id>/<YYYY-MM-DD>.json every trip of the region's lines on that service day
+  data/regions/<id>/shapes.json       simplified route geometry
+  regions.json                        route/stop ids per region, used to filter the live feeds
 """
 
 from __future__ import annotations

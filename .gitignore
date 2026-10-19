@@ -1,6 +1,5 @@
 # build output (made by `python -m pipeline`)
 data/
-public/data/
 app/generated/
 # tooling
 .venv/
